@@ -1,0 +1,28 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+#container{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.barra-completa{
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin: 6px;
+}
+
+.linha{
+    width: 1.5px;
+    position: absolute;
+}
+
+.barra{
+    width: 8px;
+    position: absolute;
+}

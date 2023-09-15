@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mercado</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="inputs">
+        <div id="criar-nova-barra">
+            <input type="text" name="criar" id="criar">
+            <button onclick="criarBarra()">Criar</button>
+        </div>
+        <div id="alterar-valor">
+            <input type="text" name="alterar" id="alterar">
+            <button onclick="alterarBarra()">Alterar</button>
+        </div>
+    </div>
+    <div id="container">
+        <!--  -->
+    </div>
+</body>
+
+</html>
+
+<script>
+
+    const container = document.getElementById("container")
+
+    var historico = 0
+
+    var dados = [
+        //{valor: -5, historico_max: 50, historico_min: 60},//0
+        {valor: 10, historico_max: 70, historico_min: 10},//-5?
+        //{valor: -60, historico_max: 5, historico_min: 65},//-5?
+        {valor: 15, historico_max: 150, historico_min: 0},//40? 60 - 15 - 5
+        {valor: 15, historico_max: 90, historico_min: 25},//25? 40 - 15
+        //{valor: -55, historico_max: 30, historico_min: 100},//25?
+        {valor: 5, historico_max: 30, historico_min: 200},//75? 25 - 5
+        //{valor: -5, historico_max: 50, historico_min: 60},//75?
+        {valor: 10, historico_max: 70, historico_min: 10},//70? 20 - 10
+        //{valor: -60, historico_max: 5, historico_min: 65},//70?
+    ]
+
+    /**
+     * Quando é negativo sempre é o mesmo valor que o anterior
+     */
+
+    dados.forEach(element => {
+        const barra_completa = document.createElement("div")
+        const linha = document.createElement("div")
+        const barra = document.createElement("div")
+
+        linha.setAttribute("class", "linha")
+        barra_completa.setAttribute("class", "barra-completa")
+        barra.setAttribute("class", "barra")
+        if(element.valor > 0){
+
+
+            var numero_negativo = String(element.valor).replace('-', '')
+
+            var result = Number(historico) - Number(numero_negativo) 
+
+
+            barra.style.top = `-${element.valor}px`
+            //barra.innerHTML = result
+            barra.style.height = `${element.valor}px`
+            barra.style.backgroundColor = "rgb(0, 16, 158)"
+            linha.style.backgroundColor = "rgb(0, 16, 158)"
+        }else{
+            var numero_negativo = String(element.valor)
+            //barra.style.top = `${historico}px`
+            //barra.innerHTML = historico
+            barra.style.backgroundColor = "rgb(161, 12, 12)"
+            linha.style.backgroundColor = "rgb(161, 12, 12)"
+            barra.style.height = `${numero_negativo.replace('-','')}px`
+        }
+
+        const min = element.historico_min
+
+        
+        linha.style.top = `-${element.historico_max}px`
+
+        linha.style.height = `${element.historico_min + element.historico_max}px`
+
+        historico = element.valor
+
+        barra_completa.appendChild(barra)
+        barra_completa.appendChild(linha)
+        container.appendChild(barra_completa)
+    });
+
+    function criarBarra(){
+        const criar = document.getElementById('criar')
+
+        var obj = {valor: criar.value}
+
+        dados.push(obj)
+
+        console.log(dados)
+
+        const barra_completa = document.createElement("div")
+        const linha = document.createElement("div")
+        const barra = document.createElement("div")
+
+        linha.setAttribute("class", "linha")
+        barra_completa.setAttribute("class", "barra-completa")
+        barra.setAttribute("class", "barra")
+        if(Number(criar.value) > 0){
+            barra.style.top = `-${criar.value}px`
+            barra.style.height = `${criar.value}px`
+            barra.style.backgroundColor = "rgb(0, 16, 158)"
+        }else{
+            var numero_negativo = String(criar.value)
+            barra.style.backgroundColor = "rgb(161, 12, 12)"
+            barra.style.height = `${numero_negativo.replace('-','')}px`
+        }
+
+        barra_completa.appendChild(barra)
+        barra_completa.appendChild(linha)
+        container.appendChild(barra_completa)
+
+    }
+    
+    function alterarBarra(){
+
+        const alterar = document.getElementById('alterar')
+
+        const ultimo = container.lastChild.firstChild
+
+        dados[dados.length - 1].valor = Number(alterar.value)
+
+        if(Number(alterar.value) > 0){
+            ultimo.style.top = `-${alterar.value}px`
+            ultimo.style.height = `${alterar.value}px`
+            ultimo.style.backgroundColor = "rgb(0, 16, 158)"
+        }else{
+            var numero_negativo = String(alterar.value)
+            ultimo.style.top = `0px`
+            ultimo.style.backgroundColor = "rgb(161, 12, 12)"
+            ultimo.style.height = `${numero_negativo.replace('-','')}px`
+        }
+
+
+    }
+</script>
